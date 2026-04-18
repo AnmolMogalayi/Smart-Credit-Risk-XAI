@@ -11,10 +11,16 @@ Endpoints:
 
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from typing import Optional
+from pathlib import Path
 import pandas as pd
 import io
+
+# ─── Paths ────────────────────────────────────────────────────────────────────
+_HERE         = Path(__file__).resolve().parent   # .../backend/
+FRONTEND_FILE = _HERE.parent / "index.html"       # project root/index.html
 
 from predict import (
     predict_single, predict_batch,
@@ -83,6 +89,14 @@ class BatchInput(BaseModel):
 # ══════════════════════════════════════════════════════════════════════════════
 # ENDPOINTS
 # ══════════════════════════════════════════════════════════════════════════════
+
+@app.get("/")
+def serve_frontend():
+    """Serve the frontend index.html from the project root."""
+    if FRONTEND_FILE.exists():
+        return FileResponse(FRONTEND_FILE)
+    raise HTTPException(status_code=404, detail="Frontend index.html not found")
+
 
 @app.get("/health")
 def health():

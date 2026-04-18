@@ -1,33 +1,36 @@
-# Use the latest Python 3.13 image
+# Use Python 3.13 to match your local dev environment
 FROM python:3.13-slim
 
-# Install system dependencies for LightGBM
+# System deps for LightGBM
 RUN apt-get update && apt-get install -y \
     libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Setup a non-root user (good for HuggingFace/Cloud)
+# Non-root user — HuggingFace requirement
 RUN useradd -m -u 1000 user
 USER user
 ENV PATH="/home/user/.local/bin:$PATH"
 
 WORKDIR /app
 
-# Copy and install requirements first (to use Docker cache)
-COPY --chown=user backend/requirements.txt .
+# Install dependencies (using Docker cache for speed)
+COPY --chown=user backend/requirements.txt requirements.txt
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir --upgrade -r requirements.txt
 
-# Copy the rest of your app folders
-COPY --chown=user backend/ ./backend/
-COPY --chown=user models/ ./models/
-COPY --chown=user data/ ./data/
+# Copy all project folders into the container
+COPY --chown=user backend/           ./backend/
+COPY --chown=user models/            ./models/
+COPY --chown=user data/              ./data/
+COPY --chown=user index.html         ./frontend/index.html
 
-# Set working directory to backend so uvicorn finds main.py
+# Ensure the app can find the 'backend' package and 'models' folder
+ENV PYTHONPATH=/app
+
+# Move into the backend folder to start the server
 WORKDIR /app/backend
 
-# Expose the port (7860 is standard for AI spaces)
+# HuggingFace Spaces MUST use port 7860
 EXPOSE 7860
 
-# Command to start your FastAPI app
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]

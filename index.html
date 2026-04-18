@@ -734,6 +734,9 @@
     </footer>
 
     <script>
+        // Works locally (file://) AND on HuggingFace / any deployed host
+        const API_BASE = window.location.origin;
+
         // Set Chart defaults for dark dashboard UI
         Chart.defaults.color = '#a1a1aa';
         Chart.defaults.font.family = "'Inter', sans-serif";
@@ -810,7 +813,7 @@
             };
 
             try {
-                const res = await fetch('http://localhost:7860/predict', {
+                const res = await fetch(`${API_BASE}/predict`, {
                     method: 'POST', headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(payload)
                 });
@@ -818,8 +821,8 @@
                 showScoringResult(await res.json());
             } catch (err) {
                 console.error(err);
-                if (errDiv) { errDiv.style.display = 'block'; errDiv.innerText = 'Failed to connect to API — ensure backend is running on port 7860.'; }
-                else alert('Failed to connect to API — ensure backend is running on port 7860.');
+                if (errDiv) { errDiv.style.display = 'block'; errDiv.innerText = `Failed to connect to API at ${API_BASE} — ensure the backend is running.`; }
+                else alert(`Failed to connect to API at ${API_BASE} — ensure the backend is running.`);
             } finally {
                 btn.disabled = false; spinner.style.display = 'none';
             }
@@ -891,7 +894,7 @@
             btn.disabled=true; spin.style.display='inline-block'; err.style.display='none';
             try {
                 const f = new FormData(); f.append('file', selectedFile);
-                const res = await fetch('http://localhost:7860/predict/csv',{method:'POST', body:f});
+                const res = await fetch(`${API_BASE}/predict/csv`, {method:'POST', body:f});
                 if(!res.ok) throw new Error(); showBatchResults(await res.json());
             } catch(e) { err.style.display='block'; err.innerText='API Connection failed.'; }
             finally { btn.disabled=false; spin.style.display='none'; }
@@ -924,7 +927,7 @@
         window.engineLoaded = false;
         async function loadAIModelsInfo() {
             try {
-                const res = await fetch('http://localhost:7860/model/info');
+                const res = await fetch(`${API_BASE}/model/info`);
                 if(!res.ok) throw new Error('model/info returned ' + res.status);
                 const d = await res.json();
 
