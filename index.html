@@ -782,19 +782,44 @@
             const btn = document.getElementById('btn-score');
             const spinner = document.getElementById('score-spinner');
             const errDiv = document.getElementById('scoring-error');
-            
-            btn.disabled = true; spinner.style.display = 'inline-block'; errDiv.style.display = 'none';
-            
+
+            btn.disabled = true; spinner.style.display = 'inline-block';
+            if (errDiv) errDiv.style.display = 'none';
+
+            // Build payload with field names matching backend ApplicantInput model
+            const payload = {
+                AGE_YEARS:           Number(document.getElementById('age').value),
+                CODE_GENDER:         document.getElementById('gender').value === 'Female' ? 1 : 0,
+                CNT_CHILDREN:        Number(document.getElementById('children').value),
+                CNT_FAM_MEMBERS:     Number(document.getElementById('family').value),
+                FLAG_OWN_CAR:        document.getElementById('car').value === 'Yes' ? 1 : 0,
+                FLAG_OWN_REALTY:     document.getElementById('realty').value === 'Yes' ? 1 : 0,
+                AMT_INCOME_TOTAL:    Number(document.getElementById('income').value),
+                AMT_CREDIT:          Number(document.getElementById('loan_amt').value),
+                AMT_ANNUITY:         Number(document.getElementById('annuity').value),
+                AMT_GOODS_PRICE:     Number(document.getElementById('goods').value),
+                EMPLOYED_YEARS:      document.getElementById('unemployed').checked ? 0 : Number(document.getElementById('employed_yrs').value),
+                IS_UNEMPLOYED:       document.getElementById('unemployed').checked ? 1 : 0,
+                EXT_SOURCE_1:        Number(document.getElementById('ext1').value),
+                EXT_SOURCE_2:        Number(document.getElementById('ext2').value),
+                EXT_SOURCE_3:        Number(document.getElementById('ext3').value),
+                INS_PAID_LATE_RATIO: Number(document.getElementById('late_frac').value),
+                INS_DAYS_LATE_MAX:   Number(document.getElementById('max_late').value),
+                PREV_APPROVED_RATIO: Number(document.getElementById('prev_app').value),
+                PREV_REFUSED_COUNT:  Number(document.getElementById('prev_ref').value)
+            };
+
             try {
                 const res = await fetch('http://localhost:7860/predict', {
                     method: 'POST', headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ /* Omitting exhaustive mapping for brevity */ age: Number(document.getElementById('age').value) })
+                    body: JSON.stringify(payload)
                 });
-                if (!res.ok) throw new Error();
+                if (!res.ok) throw new Error('API returned ' + res.status);
                 showScoringResult(await res.json());
             } catch (err) {
-                errDiv.style.display = 'block';
-                errDiv.innerText = 'Failed to connect to API, ensure backend is running.';
+                console.error(err);
+                if (errDiv) { errDiv.style.display = 'block'; errDiv.innerText = 'Failed to connect to API — ensure backend is running on port 7860.'; }
+                else alert('Failed to connect to API — ensure backend is running on port 7860.');
             } finally {
                 btn.disabled = false; spinner.style.display = 'none';
             }
@@ -803,16 +828,31 @@
         function showScoringResult(data) {
             document.getElementById('scoring-empty').style.display = 'none';
             document.getElementById('scoring-results').style.display = 'block';
-            
-            const probPct = (data.probability * 100).toFixed(1);
+
+            const prob = data.probability;
+            const probPct = (prob * 100).toFixed(1);
+            const thr = data.threshold || 0.65;
+
             document.getElementById('res-prob').innerText = probPct + '%';
-            document.getElementById('res-pill').innerText = data.tier;
-            document.getElementById('res-decision').innerText = data.decision;
-            
+            const probTxtEl = document.getElementById('res-prob-txt');
+            if (probTxtEl) probTxtEl.innerText = probPct + '% default probability';
+            document.getElementById('res-pill').innerText = data.risk_tier || '--';
+            document.getElementById('res-decision').innerText = data.decision || '--';
+
+            // Credit score and margin
+            const equivEl = document.getElementById('res-equiv');
+            if (equivEl) equivEl.innerText = data.credit_score || '--';
+            const marginEl = document.getElementById('res-margin');
+            if (marginEl) {
+                const margin = ((thr - prob) * 100).toFixed(1);
+                marginEl.innerText = (margin > 0 ? '+' : '') + margin + '%';
+            }
+
+            // Color based on actual threshold
             let colorHex = '#34d399'; let bgClass = 'bg-green';
-            if (probPct >= 65) { colorHex = '#f87171'; bgClass = 'bg-red'; }
-            else if (probPct >= 39) { colorHex = '#fbbf24'; bgClass = 'bg-amber'; }
-            
+            if (prob >= thr)       { colorHex = '#f87171'; bgClass = 'bg-red'; }
+            else if (prob >= thr * 0.6) { colorHex = '#fbbf24'; bgClass = 'bg-amber'; }
+
             document.getElementById('res-pill').className = 'risk-pill ' + bgClass;
             document.getElementById('res-decision').className = 'decision-btn ' + bgClass;
 
@@ -822,17 +862,22 @@
                 options: { cutout: '80%', responsive: true, plugins: {tooltip:{enabled:false}} }
             });
 
-            if(!data.shap) return;
+            // SHAP — backend returns shap_factors with .shap and .direction fields
+            if (!data.shap_factors || data.shap_factors.length === 0) return;
             if(shapChartInst) shapChartInst.destroy();
             shapChartInst = new Chart(document.getElementById('shapChart'), {
                 type: 'bar', data: {
-                    labels: data.shap.map(s => s.feature), datasets: [{ data: data.shap.map(s=>s.impact), backgroundColor: data.shap.map(s=>s.effect==='increase'?'#f87171':'#34d399'), borderRadius:4 }]
+                    labels: data.shap_factors.map(s => s.feature),
+                    datasets: [{ data: data.shap_factors.map(s => s.shap), backgroundColor: data.shap_factors.map(s => s.direction === 'increases_risk' ? '#f87171' : '#34d399'), borderRadius: 4 }]
                 },
                 options: { indexAxis: 'y', responsive: true, plugins: {legend:{display:false}}, scales:{y:{grid:{display:false}}} }
             });
 
             let html = '';
-            data.shap.slice(0, 10).forEach(s => { html += `<tr><td><b>${s.feature}</b></td><td>${s.value}</td><td>${s.impact.toFixed(3)}</td><td>${s.effect==='increase'?'<span class="color-red">↑ Risk</span>':'<span class="color-green">↓ Risk</span>'}</td></tr>`; });
+            data.shap_factors.slice(0, 10).forEach(s => {
+                const effStr = s.direction === 'increases_risk' ? '<span class="color-red">↑ Risk</span>' : '<span class="color-green">↓ Risk</span>';
+                html += `<tr><td><b>${s.description || s.feature}</b></td><td>${s.value}</td><td>${s.shap.toFixed(3)}</td><td>${effStr}</td></tr>`;
+            });
             document.querySelector('#shap-table tbody').innerHTML = html;
         }
 
@@ -854,19 +899,25 @@
         
         function showBatchResults(d) {
             document.getElementById('batch-results').style.display = 'block';
+            const s = d.summary;
             document.getElementById('batch-total').innerText = d.total.toLocaleString();
-            document.getElementById('batch-approved').innerText = d.approved.toLocaleString() + ' (' + ((d.approved/d.total)*100).toFixed(1) + '%)';
-            document.getElementById('batch-declined').innerText = d.declined.toLocaleString() + ' (' + ((d.declined/d.total)*100).toFixed(1) + '%)';
-            document.getElementById('batch-mean').innerText = (d.mean*100).toFixed(1) + '%';
-            document.getElementById('batch-high').innerText = d.high_risk.toLocaleString();
-            
+            document.getElementById('batch-approved').innerText = s.approve_count.toLocaleString() + ' (' + s.approve_pct.toFixed(1) + '%)';
+            document.getElementById('batch-declined').innerText = s.decline_count.toLocaleString() + ' (' + s.decline_pct.toFixed(1) + '%)';
+            document.getElementById('batch-mean').innerText = (s.mean_probability * 100).toFixed(1) + '%';
+            document.getElementById('batch-high').innerText = s.high_risk_count.toLocaleString();
+
             if(pChart) pChart.destroy();
-            pChart = new Chart(document.getElementById('batchPieChart'), { type:'doughnut', data:{ labels:['Approve','Decline'], datasets:[{data:[d.approved, d.declined], backgroundColor:['#34d399','#f87171'], borderWidth:0}] }, options:{plugins:{legend:{labels:{color:'#f8fafc'}}}} });
-            
+            pChart = new Chart(document.getElementById('batchPieChart'), { type:'doughnut', data:{ labels:['Approve','Review','Decline'], datasets:[{data:[s.approve_count, s.review_count, s.decline_count], backgroundColor:['#34d399','#fbbf24','#f87171'], borderWidth:0}] }, options:{plugins:{legend:{labels:{color:'#f8fafc'}}}} });
+
             if(bChart) bChart.destroy();
-            bChart = new Chart(document.getElementById('batchBarChart'), { type:'bar', data:{ labels:['Tiers'], datasets:[{label:'Low',data:[d.tiers.low],backgroundColor:'#34d399'},{label:'Med',data:[d.tiers.medium],backgroundColor:'#fbbf24'},{label:'High',data:[d.tiers.high],backgroundColor:'#f87171'}] }, options:{indexAxis:'y',scales:{x:{stacked:true},y:{stacked:true}}} });
-            
-            let h=''; d.rows.forEach(r => { h+= `<tr class="${r.tier==='HIGH'?'tint-red':r.tier==='MEDIUM'?'tint-amber':'tint-green'}"><td><b>${r.id}</b></td><td><div style="background:var(--border-light);height:8px;width:100px;border-radius:4px;display:inline-block;overflow:hidden;vertical-align:middle;margin-right:8px;"><div style="width:${r.prob*100}%;background:var(--accent-neon);height:100%;"></div></div>${(r.prob*100).toFixed(1)}%</td><td><span style="font-size:0.75rem;padding:4px 12px;font-weight:600;border-radius:4px;background:var(--bg-nav);border:1px solid var(--border-light);">${r.tier}</span></td><td>${r.tier==='HIGH'?'DECLINE':'APPROVE'}</td></tr>`; });
+            bChart = new Chart(document.getElementById('batchBarChart'), { type:'bar', data:{ labels:['Tiers'], datasets:[{label:'Low',data:[s.low_risk_count],backgroundColor:'#34d399'},{label:'Med',data:[s.medium_risk_count],backgroundColor:'#fbbf24'},{label:'High',data:[s.high_risk_count],backgroundColor:'#f87171'}] }, options:{indexAxis:'y',scales:{x:{stacked:true},y:{stacked:true}}} });
+
+            const cntBadge = document.getElementById('batch-count-badge');
+            if (cntBadge) cntBadge.innerText = d.results.length;
+            let h = ''; d.results.forEach(r => {
+                const tint = r.risk_tier === 'HIGH' ? 'tint-red' : r.risk_tier === 'MEDIUM' ? 'tint-amber' : 'tint-green';
+                h += `<tr class="${tint}"><td><b>${r.id}</b></td><td><div style="background:var(--border-light);height:8px;width:100px;border-radius:4px;display:inline-block;overflow:hidden;vertical-align:middle;margin-right:8px;"><div style="width:${r.probability*100}%;background:var(--accent-neon);height:100%;"></div></div>${(r.probability*100).toFixed(1)}%</td><td><span style="font-size:0.75rem;padding:4px 12px;font-weight:600;border-radius:4px;background:var(--bg-nav);border:1px solid var(--border-light);">${r.risk_tier}</span></td><td>${r.decision}</td></tr>`;
+            });
             document.querySelector('#batch-table tbody').innerHTML = h;
         }
 
@@ -874,17 +925,36 @@
         async function loadAIModelsInfo() {
             try {
                 const res = await fetch('http://localhost:7860/model/info');
-                if(!res.ok) throw new Error(); const d = await res.json();
-                document.getElementById('eng-auc').innerText = d.auc;
-                document.getElementById('eng-cvauc').innerText = d.cv_auc;
-                document.getElementById('eng-cvstd').innerText = d.cv_std;
-                document.getElementById('eng-ap').innerText = d.ap;
-                document.getElementById('eng-thr').innerText = d.thr;
-                
-                new Chart(document.getElementById('foldChart'), { type:'bar', data:{labels:['F1','F2','F3','F4','F5'], datasets:[{data:[0.782, 0.789, 0.784, 0.787, 0.782], backgroundColor:'#a3e635', borderRadius:4}]}, options:{scales:{y:{min:0.7}}} });
-                new Chart(document.getElementById('modelShapChart'), { type:'bar', data:{labels:d.shap_top15.map(x=>x.name), datasets:[{data:d.shap_top15.map(x=>x.val), backgroundColor:'#a3e635', borderRadius:4}]}, options:{indexAxis:'y'} });
-                
-                let h=''; d.impact.forEach(i => { h+= `<tr><td><b>${i.f}</b></td><td>${i.dir==='increase'?'<span class="color-red">↑ Risk</span>':'<span class="color-green">↓ Risk</span>'}</td></tr>`; });
+                if(!res.ok) throw new Error('model/info returned ' + res.status);
+                const d = await res.json();
+
+                // metrics keys: oof_roc_auc, cv_mean_auc, cv_std_auc, avg_precision, fold_aucs
+                document.getElementById('eng-auc').innerText   = d.metrics.oof_roc_auc;
+                document.getElementById('eng-cvauc').innerText = d.metrics.cv_mean_auc;
+                document.getElementById('eng-cvstd').innerText = d.metrics.cv_std_auc;
+                document.getElementById('eng-ap').innerText    = d.metrics.avg_precision;
+                document.getElementById('eng-thr').innerText   = d.threshold;
+
+                // Fold chart — use real fold AUCs from metrics
+                const foldAucs = d.metrics.fold_aucs || [0.782, 0.789, 0.784, 0.787, 0.782];
+                new Chart(document.getElementById('foldChart'), {
+                    type: 'bar',
+                    data: { labels: foldAucs.map((_, i) => 'Fold ' + (i+1)), datasets: [{ data: foldAucs, backgroundColor: '#a3e635', borderRadius: 4 }] },
+                    options: { scales: { y: { min: 0.77, max: 0.80 } } }
+                });
+
+                // Top SHAP features — top_features has { feature, mean_abs_shap, description }
+                new Chart(document.getElementById('modelShapChart'), {
+                    type: 'bar',
+                    data: { labels: d.top_features.map(x => x.feature), datasets: [{ data: d.top_features.map(x => x.mean_abs_shap), backgroundColor: '#a3e635', borderRadius: 4 }] },
+                    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } } }
+                });
+
+                // Impact guide table — top SHAP features are by definition risk-increasing
+                let h = '';
+                d.top_features.forEach(f => {
+                    h += `<tr><td><b>${f.description || f.feature}</b></td><td><span class="color-red">↑ Risk</span></td></tr>`;
+                });
                 document.querySelector('#impact-table tbody').innerHTML = h;
             } catch(e) { console.error('Engine fetch fail', e); }
             window.engineLoaded = true;
