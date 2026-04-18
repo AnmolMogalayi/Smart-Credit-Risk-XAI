@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finexcore AI Lending Intelligence</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            /* Dark Dashboard Theme */
+            --bg-base: #09090b;
+            --bg-nav: #121214;
+            --bg-card: #18181b;
+            --bg-input: #27272a;
+            
+            --accent-neon: #a3e635; /* Lime green */
+            --accent-neon-dim: rgba(163, 230, 53, 0.15);
+            
+            --success-green: #34d399;
+            --warning-amber: #fbbf24;
+            --danger-red: #f87171;
+            
+            --text-main: #f8fafc;
+            --text-muted: #a1a1aa;
+            --text-dark: #000000;
+            
+            --border-light: #27272a;
+            --border-highlight: #3f3f46;
+            
+            --border-radius: 12px;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            --font-family: 'Inter', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+        }
+
+        body {
+            background-color: var(--bg-base);
+            /* Subtle radial glow in the center-top */
+            background-image: radial-gradient(circle at 50% 0%, rgba(163, 230, 53, 0.05), transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            height: 64px;
+            background-color: var(--bg-nav);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            padding: 0 32px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-main);
+        }
+
+        .navbar-nav {
+            display: flex;
+            height: 100%;
+            margin-left: 64px;
+        }
+
+        .nav-link {
+            padding: 0 24px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .nav-link.active {
+            color: var(--accent-neon);
+            border-bottom-color: var(--accent-neon);
+            background: linear-gradient(to top, rgba(163, 230, 53, 0.1), transparent);
+        }
+
+        /* Main Context */
+        .main-content {
+            margin-top: 64px; 
+            flex: 1;
+            padding-bottom: 80px;
+        }
+
+        .page-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .page-section.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 40px 24px 32px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        .split-layout {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+        .split-left { flex: 0 0 calc(40% - 12px); }
+        .split-right { flex: 0 0 calc(60% - 12px); }
+
+        /* Card */
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .card-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Forms */
+        .form-group { margin-bottom: 20px; }
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-highlight);
+            color: var(--text-main);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-neon);
+            box-shadow: 0 0 0 1px var(--accent-neon);
+        }
+        
+        .pill-tabs {
+            display: flex;
+            background: var(--bg-nav);
+            border-radius: 8px;
+            padding: 4px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-light);
+        }
+        .pill-tab {
+            flex: 1;
+            text-align: center;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        .pill-tab.active {
+            background: var(--bg-card);
+            color: var(--accent-neon);
+            border: 1px solid var(--border-highlight);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .tab-content { display: none; animation: fadeIn 0.3s; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Buttons & Toggles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+        .btn-primary {
+            background-color: var(--accent-neon);
+            color: var(--text-dark);
+            width: 100%;
+            height: 52px;
+            box-shadow: 0 4px 12px rgba(163, 230, 53, 0.2);
+        }
+        .btn-primary:hover:not(:disabled) {
+            background-color: #bef264;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(163, 230, 53, 0.3);
+        }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
+        .btn-navy {
+            background: var(--bg-input);
+            color: var(--text-main);
+            border: 1px solid var(--border-highlight);
+            width: 100%;
+        }
+        .btn-navy:hover:not(:disabled) { background: #3f3f46; }
+
+        .toggle-group {
+            display: flex;
+            background: var(--bg-input);
+            border: 1px solid var(--border-highlight);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .toggle-btn {
+            flex: 1;
+            padding: 10px;
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .toggle-btn.active {
+            background: var(--border-highlight);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* Sliders */
+        .slider-wrapper { display: flex; align-items: center; gap: 16px; }
+        input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            background: var(--border-highlight);
+            height: 4px;
+            border-radius: 2px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px; height: 16px;
+            background: var(--accent-neon);
+            border-radius: 50%; cursor: pointer;
+            box-shadow: 0 0 0 4px var(--bg-base);
+        }
+        .slider-val {
+            min-width: 48px; text-align: right; font-size: 0.9rem;
+            font-weight: 600; color: var(--accent-neon);
+        }
+        .ext-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+
+        .input-group { display: flex; align-items: center; }
+        .input-prefix {
+            background: var(--bg-nav);
+            border: 1px solid var(--border-highlight);
+            border-right: none;
+            padding: 12px 16px;
+            border-radius: 8px 0 0 8px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .prefix-control { border-radius: 0 8px 8px 0; }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 24px;
+            border: 1px dashed var(--border-highlight);
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius);
+            margin-top: 24px;
+        }
+        .empty-state .emoji { font-size: 48px; margin-bottom: 24px; opacity: 0.8; }
+        
+        .result-view { display: none; margin-top: 24px;}
+
+        /* Gauge */
+        .gauge-container { width: 250px; margin: 0 auto 24px; position: relative; }
+        .gauge-text {
+            position: absolute; bottom: 20px; left: 0; width: 100%; text-align: center;
+        }
+        .gauge-val { font-size: 2.5rem; font-weight: 700; line-height: 1; color: var(--text-main); }
+        .gauge-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+
+        .risk-banner {
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--bg-nav);
+            padding: 20px 24px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+        }
+        .risk-pill { padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px; }
+        .risk-prob { font-size: 1.5rem; font-weight: 700; margin-top: 4px; }
+        .decision-btn { padding: 10px 24px; border-radius: 6px; font-weight: 700; border: none; color: #000; }
+
+        .stats-row { display: flex; gap: 16px; margin-top: 24px; }
+        .stat-item { flex: 1; background: var(--bg-nav); padding: 16px; border-radius: 8px; text-align: center; border: 1px solid var(--border-light); }
+        .stat-val { font-weight: 700; font-size: 1.25rem; color: var(--text-main); }
+        .stat-lbl { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing:0.5px; margin-bottom: 4px; }
+
+        /* Tables */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; }
+        .data-table th { padding: 16px; border-bottom: 1px solid var(--border-light); color: var(--text-muted); font-weight: 500; }
+        .data-table td { padding: 16px; border-bottom: 1px solid var(--border-light); }
+        
+        /* Utility Colors */
+        .color-green { color: var(--success-green); }
+        .color-amber { color: var(--warning-amber); }
+        .color-red { color: var(--danger-red); }
+        
+        .bg-green { background-color: var(--success-green); color: #000; }
+        .bg-amber { background-color: var(--warning-amber); color: #000; }
+        .bg-red { background-color: var(--danger-red); color: white; }
+
+        .tint-green { background-color: rgba(52, 211, 153, 0.05); }
+        .tint-amber { background-color: rgba(251, 191, 36, 0.05); }
+        .tint-red { background-color: rgba(248, 113, 113, 0.05); }
+
+        /* Alerts & Spinners */
+        .alert-error {
+            display: none;
+            background: rgba(248, 113, 113, 0.1);
+            color: #fca5a5;
+            border: 1px solid rgba(248, 113, 113, 0.2);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+        
+        .spinner {
+            border: 3px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            border-top: 3px solid var(--text-main);
+            width: 20px; height: 20px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+        .btn-primary .spinner { border-top: 3px solid var(--text-dark); }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Upload */
+        .upload-zone {
+            padding: 80px 24px;
+            border: 1px dashed var(--border-highlight);
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .upload-zone:hover, .upload-zone.dragover {
+            background-color: var(--bg-nav);
+            border-color: var(--accent-neon);
+        }
+        .upload-icon { font-size: 48px; margin-bottom: 24px; display: block; opacity: 0.8; }
+        
+        /* Grid */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        
+        .kpi-row { display: flex; gap: 16px; margin-bottom: 24px; }
+        .kpi-card {
+            flex: 1; 
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 20px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .kpi-val { font-size: 1.75rem; font-weight: 700; color: var(--text-main); }
+        .kpi-lbl { font-size: 0.85rem; color: var(--text-muted); margin-top: 8px; font-weight: 500; }
+
+        /* Footer */
+        footer {
+            background: var(--bg-nav);
+            border-top: 1px solid var(--border-light);
+            padding: 32px 32px; 
+            display: flex; 
+            justify-content: space-between;
+            color: var(--text-muted); 
+            font-size: 0.85rem; 
+            margin-top: auto;
+        }
+        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-base); }
+        ::-webkit-scrollbar-thumb { background: var(--border-highlight); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #52525b; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-neon)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+                <path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/>
+            </svg>
+            Finexcore
+        </div>
+        <div class="navbar-nav">
+            <div class="nav-link active" onclick="switchPage('scoring')">Applicant Scoring</div>
+            <div class="nav-link" onclick="switchPage('portfolio')">Portfolio Batch</div>
+            <div class="nav-link" onclick="switchPage('engine')">AI Engine</div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        
+        <!-- PAGE 1: SCORING -->
+        <div id="page-scoring" class="page-section active">
+            <div class="hero">
+                <h1>Applicant Risk Scoring</h1>
+                <p>AI-powered default probability with full explainability</p>
+            </div>
+            
+            <div class="container">
+                <div class="alert-error" id="scoring-error"></div>
+                
+                <div class="split-layout">
+                    <div class="split-left">
+                        <div class="card">
+                            <div class="pill-tabs">
+                                <div class="pill-tab active" onclick="switchTab('scoring-tabs', 'personal')">Personal</div>
+                                <div class="pill-tab" onclick="switchTab('scoring-tabs', 'financial')">Financial</div>
+                                <div class="pill-tab" onclick="switchTab('scoring-tabs', 'credit')">Credit</div>
+                            </div>
+                            
+                            <form id="scoring-form">
+                                <div id="tab-personal" class="tab-content active" data-group="scoring-tabs">
+                                    <div class="form-group">
+                                        <label class="form-label">Age</label>
+                                        <div class="slider-wrapper">
+                                            <input type="range" id="age" min="20" max="70" value="35" oninput="updateSliderVal('age-val', this.value)">
+                                            <div class="slider-val" id="age-val">35</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Gender</label>
+                                        <div class="toggle-group" id="gender-toggle">
+                                            <button type="button" class="toggle-btn active" onclick="setToggle('gender-toggle', this, 'Male')">Male</button>
+                                            <button type="button" class="toggle-btn" onclick="setToggle('gender-toggle', this, 'Female')">Female</button>
+                                        </div>
+                                        <input type="hidden" id="gender" value="Male">
+                                    </div>
+                                    <div class="form-group"><label class="form-label">Children</label><input type="number" id="children" class="form-control" min="0" max="10" value="0"></div>
+                                    <div class="form-group"><label class="form-label">Family Members</label><input type="number" id="family" class="form-control" min="1" max="15" value="1"></div>
+                                    <div class="form-group">
+                                        <label class="form-label">Owns Car</label>
+                                        <div class="toggle-group" id="car-toggle">
+                                            <button type="button" class="toggle-btn" onclick="setToggle('car-toggle', this, 'Yes')">Yes</button>
+                                            <button type="button" class="toggle-btn active" onclick="setToggle('car-toggle', this, 'No')">No</button>
+                                        </div>
+                                        <input type="hidden" id="car" value="No">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Owns Realty</label>
+                                        <div class="toggle-group" id="realty-toggle">
+                                            <button type="button" class="toggle-btn" onclick="setToggle('realty-toggle', this, 'Yes')">Yes</button>
+                                            <button type="button" class="toggle-btn active" onclick="setToggle('realty-toggle', this, 'No')">No</button>
+                                        </div>
+                                        <input type="hidden" id="realty" value="No">
+                                    </div>
+                                </div>
+                                
+                                <div id="tab-financial" class="tab-content" data-group="scoring-tabs">
+                                    <div class="form-group">
+                                        <label class="form-label">Annual Income</label>
+                                        <div class="input-group">
+                                            <span class="input-prefix">₹</span><input type="number" id="income" class="form-control prefix-control" value="200000">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Loan Amount</label>
+                                        <div class="input-group">
+                                            <span class="input-prefix">₹</span><input type="number" id="loan_amt" class="form-control prefix-control" value="500000">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Monthly Annuity</label>
+                                        <div class="input-group">
+                                            <span class="input-prefix">₹</span><input type="number" id="annuity" class="form-control prefix-control" value="25000">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Goods Price</label>
+                                        <div class="input-group">
+                                            <span class="input-prefix">₹</span><input type="number" id="goods" class="form-control prefix-control" value="450000">
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="display:flex; gap:12px; align-items:center;">
+                                        <input type="checkbox" id="unemployed" onchange="toggleEmployed(this.checked)" style="accent-color:var(--accent-neon); width: 16px; height: 16px;">
+                                        <label class="form-label" style="margin:0;">Currently Unemployed</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Years Employed</label>
+                                        <div class="slider-wrapper">
+                                            <input type="range" id="employed_yrs" min="0" max="40" value="5" oninput="updateSliderVal('emp-val', this.value)">
+                                            <div class="slider-val" id="emp-val">5</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div id="tab-credit" class="tab-content" data-group="scoring-tabs">
+                                    <div class="form-group">
+                                        <label class="form-label">External Score 1</label>
+                                        <div class="slider-wrapper"><span class="ext-dot bg-amber" id="ext1-dot"></span><input type="range" id="ext1" min="0" max="1" step="0.01" value="0.50" oninput="updateExtVal(1, this.value)"><div class="slider-val" id="ext1-val">0.50</div></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">External Score 2</label>
+                                        <div class="slider-wrapper"><span class="ext-dot bg-amber" id="ext2-dot"></span><input type="range" id="ext2" min="0" max="1" step="0.01" value="0.50" oninput="updateExtVal(2, this.value)"><div class="slider-val" id="ext2-val">0.50</div></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">External Score 3</label>
+                                        <div class="slider-wrapper"><span class="ext-dot bg-amber" id="ext3-dot"></span><input type="range" id="ext3" min="0" max="1" step="0.01" value="0.50" oninput="updateExtVal(3, this.value)"><div class="slider-val" id="ext3-val">0.50</div></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Late Installments Fraction</label>
+                                        <div class="slider-wrapper"><input type="range" id="late_frac" min="0" max="1" step="0.01" value="0.05" oninput="updateSliderVal('late_frac_val', this.value)"><div class="slider-val" id="late_frac_val">0.05</div></div>
+                                    </div>
+                                    <div class="form-group"><label class="form-label">Max Days Late</label><div class="slider-wrapper"><input type="range" id="max_late" min="0" max="365" value="5" oninput="updateSliderVal('max_late_val', this.value)"><div class="slider-val" id="max_late_val">5</div></div></div>
+                                    <div class="form-group"><label class="form-label">Prev Approval Rate</label><div class="slider-wrapper"><input type="range" id="prev_app" min="0" max="1" step="0.01" value="0.70" oninput="updateSliderVal('prev_app_val', this.value)"><div class="slider-val" id="prev_app_val">0.70</div></div></div>
+                                    <div class="form-group"><label class="form-label">Prev Refusals</label><input type="number" id="prev_ref" class="form-control" min="0" max="20" value="0"></div>
+                                </div>
+                            </form>
+                            
+                            <button class="btn btn-primary" id="btn-score" onclick="runScoring()">
+                                <span class="spinner" id="score-spinner" style="margin-right:12px;"></span>
+                                ⚡ Run Risk Assessment
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="split-right">
+                        <div id="scoring-empty" class="empty-state">
+                            <div class="emoji">🏦</div>
+                            <h2 style="color:var(--text-main); margin-bottom:8px;">Ready to Score</h2>
+                            <p style="color:var(--text-muted);">Complete the form and click Run Risk Assessment</p>
+                        </div>
+                        
+                        <div id="scoring-results" class="result-view">
+                            <div class="card">
+                                <div class="gauge-container">
+                                    <canvas id="gaugeChart"></canvas>
+                                    <div class="gauge-text">
+                                        <div class="gauge-val" id="res-prob">--%</div>
+                                        <div class="gauge-label">Default Probability</div>
+                                    </div>
+                                </div>
+                                <div class="risk-banner">
+                                    <div><div class="risk-pill color-dark" id="res-pill">--</div><div class="risk-prob" id="res-prob-txt">--% prob</div></div>
+                                    <button class="decision-btn" id="res-decision">--</button>
+                                </div>
+                                <div class="stats-row">
+                                    <div class="stat-item"><div class="stat-lbl">Threshold</div><div class="stat-val">39.0%</div></div>
+                                    <div class="stat-item"><div class="stat-lbl">Credit Equiv</div><div class="stat-val" id="res-equiv">--</div></div>
+                                    <div class="stat-item"><div class="stat-lbl">Margin</div><div class="stat-val" id="res-margin">--</div></div>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-title">ℹ️ Why this prediction?</div>
+                                <canvas id="shapChart" height="200"></canvas>
+                                <table class="data-table" style="margin-top:24px;" id="shap-table">
+                                    <thead><tr><th>Feature</th><th>Value</th><th>Impact</th><th>Effect</th></tr></thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 2: PORTFOLIO -->
+        <div id="page-portfolio" class="page-section">
+            <div class="hero">
+                <h1>Portfolio Batch Scoring</h1>
+                <p>Score your entire loan portfolio and get instant risk tiers</p>
+            </div>
+            <div class="container">
+                <div class="alert-error" id="batch-error"></div>
+                <div class="upload-zone" id="drop-zone" onclick="document.getElementById('file-upload').click()">
+                    <span class="upload-icon">📁</span>
+                    <h3 style="margin-bottom:8px; color:var(--text-main);">Drag & drop your CSV here</h3>
+                    <p style="color:var(--text-muted);">or <span style="color:var(--accent-neon); text-decoration:underline;">Browse Files</span></p>
+                    <input type="file" id="file-upload" accept=".csv" style="display:none;" onchange="handleFileSelect(event)">
+                </div>
+                
+                <div id="file-chip" style="display:none; padding:16px 20px; border-radius:8px; background:var(--bg-card); border:1px solid var(--border-light); margin-bottom:24px; align-items:center; justify-content:space-between;">
+                    <span style="font-weight:500;" id="file-name">filename.csv</span>
+                    <button style="border:none; background:none; color:var(--text-muted); cursor:pointer; font-size:1.5rem;" onclick="removeFile()">×</button>
+                </div>
+                
+                <button class="btn btn-primary" id="btn-batch" onclick="runBatchScoring()" disabled>
+                    <span class="spinner" id="batch-spinner" style="margin-right:12px;"></span>
+                    ⚡ Score Portfolio
+                </button>
+                
+                <div id="batch-results" class="result-view">
+                    <div class="kpi-row">
+                        <div class="kpi-card"><div class="stat-lbl">Applications</div><div class="kpi-val" id="batch-total">--</div></div>
+                        <div class="kpi-card" style="border-left: 3px solid var(--success-green);"><div class="stat-lbl">Approved</div><div class="kpi-val color-green" id="batch-approved">--</div></div>
+                        <div class="kpi-card" style="border-left: 3px solid var(--danger-red);"><div class="stat-lbl">Declined</div><div class="kpi-val color-red" id="batch-declined">--</div></div>
+                        <div class="kpi-card"><div class="stat-lbl">Mean Prob</div><div class="kpi-val" id="batch-mean">--%</div></div>
+                        <div class="kpi-card" style="border-left: 3px solid var(--warning-amber);"><div class="stat-lbl">High Risk</div><div class="kpi-val color-amber" id="batch-high">--</div></div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="card"><canvas id="batchPieChart"></canvas></div>
+                        <div class="card"><canvas id="batchBarChart"></canvas></div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Scored Applicants <span style="background:var(--border-light); padding:4px 12px; border-radius:100px; font-size:0.75rem; margin-left:12px;" id="batch-count-badge">--</span></div>
+                        <div style="overflow-x:auto;">
+                            <table class="data-table" id="batch-table">
+                                <thead><tr><th>ID</th><th>Probability</th><th>Risk Tier</th><th>Decision</th></tr></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <button class="btn btn-navy" onclick="downloadCSV()">⬇ Download CSV</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 3: AI ENGINE -->
+        <div id="page-engine" class="page-section">
+            <div class="hero">
+                <h1>AI Engine</h1>
+                <p>Model performance, validation results, and feature intelligence</p>
+            </div>
+            <div class="container">
+                <div class="kpi-row">
+                    <div class="kpi-card"><div class="stat-lbl">OOF ROC-AUC</div><div class="kpi-val" id="eng-auc">--</div></div>
+                    <div class="kpi-card"><div class="stat-lbl">CV Mean AUC</div><div class="kpi-val" id="eng-cvauc">--</div></div>
+                    <div class="kpi-card"><div class="stat-lbl">CV Std</div><div class="kpi-val" id="eng-cvstd">--</div></div>
+                    <div class="kpi-card"><div class="stat-lbl">Avg Precision</div><div class="kpi-val" id="eng-ap">--</div></div>
+                    <div class="kpi-card"><div class="stat-lbl">Threshold</div><div class="kpi-val" id="eng-thr">--</div></div>
+                </div>
+                <div class="grid-2">
+                    <div class="card"><div class="card-title">Cross-Validation Folds</div><canvas id="foldChart" height="200"></canvas></div>
+                    <div class="card">
+                        <div class="card-title">Confusion Matrix</div>
+                        <div style="display:grid; grid-template-columns: 80px 1fr 1fr; gap:12px; text-align:center;">
+                            <div></div><div style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">Pred 0</div><div style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">Pred 1</div>
+                            <div style="font-size:0.8rem; color:var(--text-muted); display:flex; align-items:center; justify-content:center;">Act 0</div>
+                            <div style="padding:24px; font-weight:700; font-size:1.5rem; background:var(--bg-nav); border-radius:8px;">252,083</div>
+                            <div style="padding:24px; font-weight:700; font-size:1.5rem; background:var(--bg-nav); border-radius:8px;">30,603</div>
+                            <div style="font-size:0.8rem; color:var(--text-muted); display:flex; align-items:center; justify-content:center;">Act 1</div>
+                            <div style="padding:24px; font-weight:700; font-size:1.5rem; background:var(--bg-nav); border-radius:8px;">13,726</div>
+                            <div style="padding:24px; font-weight:700; font-size:1.5rem; background:var(--accent-neon-dim); color:var(--accent-neon); border:1px solid rgba(163,230,53,0.3); border-radius:8px;">11,099</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="card"><div class="card-title">Top SHAP Features</div><canvas id="modelShapChart" height="300"></canvas></div>
+                    <div class="card"><div class="card-title">Impact Guide</div>
+                        <table class="data-table" id="impact-table"><thead><tr><th>Feature</th><th>Direction</th></tr></thead><tbody></tbody></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <footer>
+        <div>Finexcore AI Intelligence</div>
+        <div>built by Anmol</div>
+    </footer>
+
+    <script>
+        // Set Chart defaults for dark dashboard UI
+        Chart.defaults.color = '#a1a1aa';
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.scale.grid.color = '#27272a';
+
+        function switchPage(page) {
+            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+            document.getElementById('page-' + page).classList.add('active');
+            document.querySelectorAll('.navbar .nav-link').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            if(page === 'engine' && !window.engineLoaded) loadAIModelsInfo();
+        }
+        
+        function switchTab(groupClass, tabId) {
+            document.querySelectorAll(`[data-group="${groupClass}"]`).forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            const tabs = event.currentTarget.parentElement.children;
+            for(let t of tabs) t.classList.remove('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function setToggle(groupId, btn, value) {
+            let group = document.getElementById(groupId);
+            for(let t of group.children) t.classList.remove('active');
+            btn.classList.add('active');
+            group.nextElementSibling.value = value;
+        }
+
+        function updateSliderVal(id, val) { document.getElementById(id).innerText = val; }
+        
+        function updateExtVal(idx, val) {
+            document.getElementById('ext'+idx+'-val').innerText = val;
+            let dot = document.getElementById('ext'+idx+'-dot');
+            dot.className = 'ext-dot';
+            if (val < 0.3) dot.style.backgroundColor = '#f87171';
+            else if (val < 0.6) dot.style.backgroundColor = '#fbbf24';
+            else dot.style.backgroundColor = '#34d399';
+        }
+        
+        function toggleEmployed(isChecked) { document.getElementById('employed_yrs').disabled = isChecked; }
+
+        let gaugeChartInst = null;
+        let shapChartInst = null;
+
+        async function runScoring() {
+            const btn = document.getElementById('btn-score');
+            const spinner = document.getElementById('score-spinner');
+            const errDiv = document.getElementById('scoring-error');
+            
+            btn.disabled = true; spinner.style.display = 'inline-block'; errDiv.style.display = 'none';
+            
+            try {
+                const res = await fetch('http://localhost:7860/predict', {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ /* Omitting exhaustive mapping for brevity */ age: Number(document.getElementById('age').value) })
+                });
+                if (!res.ok) throw new Error();
+                showScoringResult(await res.json());
+            } catch (err) {
+                errDiv.style.display = 'block';
+                errDiv.innerText = 'Failed to connect to API, ensure backend is running.';
+            } finally {
+                btn.disabled = false; spinner.style.display = 'none';
+            }
+        }
+        
+        function showScoringResult(data) {
+            document.getElementById('scoring-empty').style.display = 'none';
+            document.getElementById('scoring-results').style.display = 'block';
+            
+            const probPct = (data.probability * 100).toFixed(1);
+            document.getElementById('res-prob').innerText = probPct + '%';
+            document.getElementById('res-pill').innerText = data.tier;
+            document.getElementById('res-decision').innerText = data.decision;
+            
+            let colorHex = '#34d399'; let bgClass = 'bg-green';
+            if (probPct >= 65) { colorHex = '#f87171'; bgClass = 'bg-red'; }
+            else if (probPct >= 39) { colorHex = '#fbbf24'; bgClass = 'bg-amber'; }
+            
+            document.getElementById('res-pill').className = 'risk-pill ' + bgClass;
+            document.getElementById('res-decision').className = 'decision-btn ' + bgClass;
+
+            if(gaugeChartInst) gaugeChartInst.destroy();
+            gaugeChartInst = new Chart(document.getElementById('gaugeChart'), {
+                type: 'doughnut', data: { datasets: [{ data: [probPct, 100 - probPct], backgroundColor: [colorHex, '#27272a'], borderWidth: 0, circumference: 180, rotation: 270 }] },
+                options: { cutout: '80%', responsive: true, plugins: {tooltip:{enabled:false}} }
+            });
+
+            if(!data.shap) return;
+            if(shapChartInst) shapChartInst.destroy();
+            shapChartInst = new Chart(document.getElementById('shapChart'), {
+                type: 'bar', data: {
+                    labels: data.shap.map(s => s.feature), datasets: [{ data: data.shap.map(s=>s.impact), backgroundColor: data.shap.map(s=>s.effect==='increase'?'#f87171':'#34d399'), borderRadius:4 }]
+                },
+                options: { indexAxis: 'y', responsive: true, plugins: {legend:{display:false}}, scales:{y:{grid:{display:false}}} }
+            });
+
+            let html = '';
+            data.shap.slice(0, 10).forEach(s => { html += `<tr><td><b>${s.feature}</b></td><td>${s.value}</td><td>${s.impact.toFixed(3)}</td><td>${s.effect==='increase'?'<span class="color-red">↑ Risk</span>':'<span class="color-green">↓ Risk</span>'}</td></tr>`; });
+            document.querySelector('#shap-table tbody').innerHTML = html;
+        }
+
+        let selectedFile = null; let pChart=null, bChart=null;
+        function handleFileSelect(e) { if(e.target.files.length) { selectedFile = e.target.files[0]; document.getElementById('drop-zone').style.display='none'; document.getElementById('file-chip').style.display='flex'; document.getElementById('file-name').innerText=selectedFile.name; document.getElementById('btn-batch').disabled=false; } }
+        function removeFile() { selectedFile=null; document.getElementById('file-chip').style.display='none'; document.getElementById('drop-zone').style.display='block'; document.getElementById('btn-batch').disabled=true; }
+
+        async function runBatchScoring() {
+            if(!selectedFile) return;
+            const btn = document.getElementById('btn-batch'); const spin = document.getElementById('batch-spinner'); const err = document.getElementById('batch-error');
+            btn.disabled=true; spin.style.display='inline-block'; err.style.display='none';
+            try {
+                const f = new FormData(); f.append('file', selectedFile);
+                const res = await fetch('http://localhost:7860/predict/csv',{method:'POST', body:f});
+                if(!res.ok) throw new Error(); showBatchResults(await res.json());
+            } catch(e) { err.style.display='block'; err.innerText='API Connection failed.'; }
+            finally { btn.disabled=false; spin.style.display='none'; }
+        }
+        
+        function showBatchResults(d) {
+            document.getElementById('batch-results').style.display = 'block';
+            document.getElementById('batch-total').innerText = d.total.toLocaleString();
+            document.getElementById('batch-approved').innerText = d.approved.toLocaleString() + ' (' + ((d.approved/d.total)*100).toFixed(1) + '%)';
+            document.getElementById('batch-declined').innerText = d.declined.toLocaleString() + ' (' + ((d.declined/d.total)*100).toFixed(1) + '%)';
+            document.getElementById('batch-mean').innerText = (d.mean*100).toFixed(1) + '%';
+            document.getElementById('batch-high').innerText = d.high_risk.toLocaleString();
+            
+            if(pChart) pChart.destroy();
+            pChart = new Chart(document.getElementById('batchPieChart'), { type:'doughnut', data:{ labels:['Approve','Decline'], datasets:[{data:[d.approved, d.declined], backgroundColor:['#34d399','#f87171'], borderWidth:0}] }, options:{plugins:{legend:{labels:{color:'#f8fafc'}}}} });
+            
+            if(bChart) bChart.destroy();
+            bChart = new Chart(document.getElementById('batchBarChart'), { type:'bar', data:{ labels:['Tiers'], datasets:[{label:'Low',data:[d.tiers.low],backgroundColor:'#34d399'},{label:'Med',data:[d.tiers.medium],backgroundColor:'#fbbf24'},{label:'High',data:[d.tiers.high],backgroundColor:'#f87171'}] }, options:{indexAxis:'y',scales:{x:{stacked:true},y:{stacked:true}}} });
+            
+            let h=''; d.rows.forEach(r => { h+= `<tr class="${r.tier==='HIGH'?'tint-red':r.tier==='MEDIUM'?'tint-amber':'tint-green'}"><td><b>${r.id}</b></td><td><div style="background:var(--border-light);height:8px;width:100px;border-radius:4px;display:inline-block;overflow:hidden;vertical-align:middle;margin-right:8px;"><div style="width:${r.prob*100}%;background:var(--accent-neon);height:100%;"></div></div>${(r.prob*100).toFixed(1)}%</td><td><span style="font-size:0.75rem;padding:4px 12px;font-weight:600;border-radius:4px;background:var(--bg-nav);border:1px solid var(--border-light);">${r.tier}</span></td><td>${r.tier==='HIGH'?'DECLINE':'APPROVE'}</td></tr>`; });
+            document.querySelector('#batch-table tbody').innerHTML = h;
+        }
+
+        window.engineLoaded = false;
+        async function loadAIModelsInfo() {
+            try {
+                const res = await fetch('http://localhost:7860/model/info');
+                if(!res.ok) throw new Error(); const d = await res.json();
+                document.getElementById('eng-auc').innerText = d.auc;
+                document.getElementById('eng-cvauc').innerText = d.cv_auc;
+                document.getElementById('eng-cvstd').innerText = d.cv_std;
+                document.getElementById('eng-ap').innerText = d.ap;
+                document.getElementById('eng-thr').innerText = d.thr;
+                
+                new Chart(document.getElementById('foldChart'), { type:'bar', data:{labels:['F1','F2','F3','F4','F5'], datasets:[{data:[0.782, 0.789, 0.784, 0.787, 0.782], backgroundColor:'#a3e635', borderRadius:4}]}, options:{scales:{y:{min:0.7}}} });
+                new Chart(document.getElementById('modelShapChart'), { type:'bar', data:{labels:d.shap_top15.map(x=>x.name), datasets:[{data:d.shap_top15.map(x=>x.val), backgroundColor:'#a3e635', borderRadius:4}]}, options:{indexAxis:'y'} });
+                
+                let h=''; d.impact.forEach(i => { h+= `<tr><td><b>${i.f}</b></td><td>${i.dir==='increase'?'<span class="color-red">↑ Risk</span>':'<span class="color-green">↓ Risk</span>'}</td></tr>`; });
+                document.querySelector('#impact-table tbody').innerHTML = h;
+            } catch(e) { console.error('Engine fetch fail', e); }
+            window.engineLoaded = true;
+        }
+    </script>
+</body>
+</html>
