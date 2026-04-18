@@ -2,7 +2,10 @@ venv/
 __pycache__/
 *.pyc
 .env
-data/
+# Data — raw files too large
+data/raw/
+data/processed/train_processed.csv
+data/processed/test_processed.csv
 models/
 notebooks/*.ipynb_checkpoints
 .idea/

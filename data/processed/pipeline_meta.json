@@ -1,0 +1,946 @@
+{
+  "medians": {
+    "AMT_ANNUITY": 24903.0,
+    "AMT_GOODS_PRICE": 450000.0,
+    "DAYS_EMPLOYED": 1648.0,
+    "CNT_FAM_MEMBERS": 2.0,
+    "EXT_SOURCE_1": 0.5059979305057544,
+    "EXT_SOURCE_2": 0.5659614260608526,
+    "EXT_SOURCE_3": 0.5352762504724826,
+    "APARTMENTS_AVG": 0.0876,
+    "BASEMENTAREA_AVG": 0.0763,
+    "YEARS_BEGINEXPLUATATION_AVG": 0.9816,
+    "ELEVATORS_AVG": 0.0,
+    "ENTRANCES_AVG": 0.1379,
+    "FLOORSMAX_AVG": 0.1667,
+    "LANDAREA_AVG": 0.0481,
+    "LIVINGAREA_AVG": 0.0745,
+    "NONLIVINGAREA_AVG": 0.0036,
+    "APARTMENTS_MODE": 0.084,
+    "BASEMENTAREA_MODE": 0.0746,
+    "YEARS_BEGINEXPLUATATION_MODE": 0.9816,
+    "ELEVATORS_MODE": 0.0,
+    "ENTRANCES_MODE": 0.1379,
+    "FLOORSMAX_MODE": 0.1667,
+    "LANDAREA_MODE": 0.0458,
+    "LIVINGAREA_MODE": 0.0731,
+    "NONLIVINGAREA_MODE": 0.0011,
+    "APARTMENTS_MEDI": 0.0864,
+    "BASEMENTAREA_MEDI": 0.0758,
+    "YEARS_BEGINEXPLUATATION_MEDI": 0.9816,
+    "ELEVATORS_MEDI": 0.0,
+    "ENTRANCES_MEDI": 0.1379,
+    "FLOORSMAX_MEDI": 0.1667,
+    "LANDAREA_MEDI": 0.0487,
+    "LIVINGAREA_MEDI": 0.0749,
+    "NONLIVINGAREA_MEDI": 0.0031,
+    "TOTALAREA_MODE": 0.0688,
+    "OBS_30_CNT_SOCIAL_CIRCLE": 0.0,
+    "DEF_30_CNT_SOCIAL_CIRCLE": 0.0,
+    "OBS_60_CNT_SOCIAL_CIRCLE": 0.0,
+    "DEF_60_CNT_SOCIAL_CIRCLE": 0.0,
+    "DAYS_LAST_PHONE_CHANGE": 757.0,
+    "BURO_DAYS_CREDIT_MIN": -1827.0,
+    "BURO_DAYS_CREDIT_MAX": -300.0,
+    "BURO_DAYS_CREDIT_MEAN": -1051.0,
+    "BURO_CREDIT_DAY_OVERDUE_MAX": 0.0,
+    "BURO_CREDIT_DAY_OVERDUE_MEAN": 0.0,
+    "BURO_AMT_CREDIT_MAX_OVERDUE_MAX": 0.0,
+    "BURO_AMT_CREDIT_MAX_OVERDUE_MEAN": 0.0,
+    "BURO_AMT_CREDIT_SUM_SUM": 961704.0,
+    "BURO_AMT_CREDIT_SUM_MEAN": 195507.1875,
+    "BURO_AMT_CREDIT_SUM_DEBT_SUM": 169020.0,
+    "BURO_AMT_CREDIT_SUM_DEBT_MEAN": 44208.03515625,
+    "BURO_AMT_CREDIT_SUM_OVERDUE_SUM": 0.0,
+    "BURO_AMT_ANNUITY_SUM": 0.0,
+    "BURO_CNT_CREDIT_PROLONG_SUM": 0.0,
+    "BURO_CREDIT_DURATION_MEAN": 815.0,
+    "BURO_CREDIT_DURATION_MAX": 1826.0,
+    "BURO_CREDIT_REPAID_MEAN": 0.625,
+    "BURO_CREDIT_REPAID_SUM": 3.0,
+    "BURO_OVERDUE_RATIO_MEAN": 0.0,
+    "BURO_OVERDUE_RATIO_MAX": 0.0,
+    "BURO_BB_MONTHS_COUNT_SUM": 0.0,
+    "BURO_BB_DPD_MONTHS_SUM": 0.0,
+    "BURO_CREDIT_COUNT": 4.0,
+    "BURO_ACTIVE_COUNT": 2.0,
+    "PREV_COUNT": 4.0,
+    "PREV_APPROVED_COUNT": 3.0,
+    "PREV_REFUSED_COUNT": 0.0,
+    "PREV_APPROVED_RATIO": 0.7998046875,
+    "PREV_AMT_CREDIT_MEAN": 117450.0,
+    "PREV_AMT_CREDIT_MAX": 225000.0,
+    "PREV_AMT_ANNUITY_MEAN": 11984.35546875,
+    "PREV_APP_CREDIT_RATIO": 0.9716796875,
+    "PREV_LOAN_DIFF_MEAN": -5102.10009765625,
+    "PREV_DOWN_RATIO_MEAN": 0.06854248046875,
+    "PREV_DAYS_DECISION_MIN": -1503.0,
+    "PREV_DAYS_DECISION_MEAN": -789.0,
+    "PREV_RATE_DOWN_MEAN": 0.0662841796875,
+    "PREV_CNT_PAYMENT_MEAN": 12.0,
+    "INS_COUNT": 25.0,
+    "INS_AMT_PAYMENT_SUM": 318619.5,
+    "INS_AMT_PAYMENT_MEAN": 12225.755859375,
+    "INS_PAYMENT_DIFF_MEAN": 0.0,
+    "INS_PAYMENT_DIFF_MAX": 0.0,
+    "INS_PAYMENT_RATIO_MEAN": 1.0,
+    "INS_PAYMENT_RATIO_MIN": 1.0,
+    "INS_DAYS_LATE_MEAN": -9.5390625,
+    "INS_DAYS_LATE_MAX": 1.0,
+    "INS_PAID_LATE_RATIO": 0.018524169921875,
+    "INS_PAID_FULL_RATIO": 1.0,
+    "POS_COUNT": 22.0,
+    "POS_MONTHS_BALANCE_MAX": -4.0,
+    "POS_SK_DPD_MEAN": 0.0,
+    "POS_SK_DPD_MAX": 0.0,
+    "POS_SK_DPD_DEF_MEAN": 0.0,
+    "POS_SK_DPD_DEF_MAX": 0.0,
+    "POS_DPD_POSITIVE_RATIO": 0.0,
+    "POS_CNT_INSTALMENT_MEAN": 12.0,
+    "EMPLOYED_YEARS": 4.515068493150685,
+    "ANNUITY_INCOME_RATIO": 0.16283333333333333,
+    "CREDIT_TERM": 0.05,
+    "GOODS_CREDIT_RATIO": 0.8938148015731141,
+    "INCOME_PER_PERSON": 75000.0,
+    "EXT_SOURCE_MEAN": 0.5245019540617536,
+    "EXT_SOURCE_STD": 0.13602093947315613,
+    "EXT_SOURCE_MIN": 0.4031670546503185,
+    "EMPLOYED_TO_AGE_RATIO": 0.11873294066944404
+  },
+  "clip_bounds": {
+    "CNT_CHILDREN": [
+      0.0,
+      3.0
+    ],
+    "AMT_INCOME_TOTAL": [
+      45000.0,
+      630000.0
+    ],
+    "AMT_CREDIT": [
+      61263.0,
+      2022565.5
+    ],
+    "AMT_ANNUITY": [
+      5253.975000000006,
+      79758.0
+    ],
+    "AMT_GOODS_PRICE": [
+      54000.0,
+      1800000.0
+    ],
+    "REGION_POPULATION_RELATIVE": [
+      0.002042,
+      0.072508
+    ],
+    "DAYS_BIRTH": [
+      8080.0,
+      24713.0
+    ],
+    "DAYS_EMPLOYED": [
+      100.0,
+      12266.450000000012
+    ],
+    "DAYS_REGISTRATION": [
+      20.0,
+      14743.450000000012
+    ],
+    "DAYS_ID_PUBLISH": [
+      25.0,
+      5669.0
+    ],
+    "CNT_FAM_MEMBERS": [
+      1.0,
+      5.0
+    ],
+    "REGION_RATING_CLIENT": [
+      1.0,
+      3.0
+    ],
+    "REGION_RATING_CLIENT_W_CITY": [
+      1.0,
+      3.0
+    ],
+    "HOUR_APPR_PROCESS_START": [
+      3.0,
+      20.0
+    ],
+    "EXT_SOURCE_1": [
+      0.08881620396011551,
+      0.8863856680931856
+    ],
+    "EXT_SOURCE_2": [
+      0.013284286017169813,
+      0.79114095584914
+    ],
+    "EXT_SOURCE_3": [
+      0.0485913394924409,
+      0.8435435389318647
+    ],
+    "APARTMENTS_AVG": [
+      0.0021,
+      0.5412
+    ],
+    "BASEMENTAREA_AVG": [
+      0.0,
+      0.3657
+    ],
+    "YEARS_BEGINEXPLUATATION_AVG": [
+      0.9483,
+      0.999
+    ],
+    "ELEVATORS_AVG": [
+      0.0,
+      0.6
+    ],
+    "ENTRANCES_AVG": [
+      0.0345,
+      0.5172
+    ],
+    "FLOORSMAX_AVG": [
+      0.0,
+      0.6667
+    ],
+    "LANDAREA_AVG": [
+      0.0,
+      0.3529
+    ],
+    "LIVINGAREA_AVG": [
+      0.0022,
+      0.5503
+    ],
+    "NONLIVINGAREA_AVG": [
+      0.0,
+      0.2991
+    ],
+    "APARTMENTS_MODE": [
+      0.0021,
+      0.5368
+    ],
+    "BASEMENTAREA_MODE": [
+      0.0,
+      0.3751
+    ],
+    "YEARS_BEGINEXPLUATATION_MODE": [
+      0.9484,
+      0.999
+    ],
+    "ELEVATORS_MODE": [
+      0.0,
+      0.5639
+    ],
+    "ENTRANCES_MODE": [
+      0.0345,
+      0.5172
+    ],
+    "FLOORSMAX_MODE": [
+      0.0,
+      0.6667
+    ],
+    "LANDAREA_MODE": [
+      0.0,
+      0.3562
+    ],
+    "LIVINGAREA_MODE": [
+      0.0019,
+      0.561
+    ],
+    "NONLIVINGAREA_MODE": [
+      0.0,
+      0.30414500000000116
+    ],
+    "APARTMENTS_MEDI": [
+      0.0021,
+      0.5465
+    ],
+    "BASEMENTAREA_MEDI": [
+      0.0,
+      0.3644
+    ],
+    "YEARS_BEGINEXPLUATATION_MEDI": [
+      0.9488,
+      0.999
+    ],
+    "ELEVATORS_MEDI": [
+      0.0,
+      0.6
+    ],
+    "ENTRANCES_MEDI": [
+      0.0345,
+      0.5172
+    ],
+    "FLOORSMAX_MEDI": [
+      0.0,
+      0.6667
+    ],
+    "LANDAREA_MEDI": [
+      0.0,
+      0.35819000000000234
+    ],
+    "LIVINGAREA_MEDI": [
+      0.0022,
+      0.5575150000000082
+    ],
+    "NONLIVINGAREA_MEDI": [
+      0.0,
+      0.3029
+    ],
+    "TOTALAREA_MODE": [
+      0.0016,
+      0.5304
+    ],
+    "OBS_30_CNT_SOCIAL_CIRCLE": [
+      0.0,
+      12.0
+    ],
+    "DEF_30_CNT_SOCIAL_CIRCLE": [
+      0.0,
+      2.0
+    ],
+    "OBS_60_CNT_SOCIAL_CIRCLE": [
+      0.0,
+      12.0
+    ],
+    "DEF_60_CNT_SOCIAL_CIRCLE": [
+      0.0,
+      2.0
+    ],
+    "DAYS_LAST_PHONE_CHANGE": [
+      0.0,
+      3297.0
+    ],
+    "AMT_REQ_CREDIT_BUREAU_HOUR": [
+      0.0,
+      1.0
+    ],
+    "AMT_REQ_CREDIT_BUREAU_DAY": [
+      0.0,
+      0.0
+    ],
+    "AMT_REQ_CREDIT_BUREAU_WEEK": [
+      0.0,
+      1.0
+    ],
+    "AMT_REQ_CREDIT_BUREAU_MON": [
+      0.0,
+      6.0
+    ],
+    "AMT_REQ_CREDIT_BUREAU_QRT": [
+      0.0,
+      3.0
+    ],
+    "AMT_REQ_CREDIT_BUREAU_YEAR": [
+      0.0,
+      8.0
+    ],
+    "BURO_DAYS_CREDIT_MIN": [
+      -2916.0,
+      -60.0
+    ],
+    "BURO_DAYS_CREDIT_MAX": [
+      -2715.0,
+      -11.0
+    ],
+    "BURO_DAYS_CREDIT_MEAN": [
+      -2740.0,
+      -58.0
+    ],
+    "BURO_CREDIT_DAY_OVERDUE_MAX": [
+      0.0,
+      45.0
+    ],
+    "BURO_CREDIT_DAY_OVERDUE_MEAN": [
+      0.0,
+      9.0
+    ],
+    "BURO_AMT_CREDIT_MAX_OVERDUE_MAX": [
+      0.0,
+      85675.58789062535
+    ],
+    "BURO_AMT_CREDIT_MAX_OVERDUE_MEAN": [
+      0.0,
+      46837.47832031254
+    ],
+    "BURO_AMT_CREDIT_SUM_SUM": [
+      13500.0,
+      17187572.400000095
+    ],
+    "BURO_AMT_CREDIT_SUM_MEAN": [
+      10660.220214843781,
+      3866177.7375000175
+    ],
+    "BURO_AMT_CREDIT_SUM_DEBT_SUM": [
+      0.0,
+      8870035.10000003
+    ],
+    "BURO_AMT_CREDIT_SUM_DEBT_MEAN": [
+      0.0,
+      2634278.4000000022
+    ],
+    "BURO_AMT_CREDIT_SUM_OVERDUE_SUM": [
+      0.0,
+      288.0
+    ],
+    "BURO_AMT_ANNUITY_SUM": [
+      0.0,
+      355826.8125000039
+    ],
+    "BURO_CNT_CREDIT_PROLONG_SUM": [
+      0.0,
+      2.0
+    ],
+    "BURO_CREDIT_DURATION_MEAN": [
+      90.0,
+      18992.0
+    ],
+    "BURO_CREDIT_DURATION_MAX": [
+      92.0,
+      33568.0
+    ],
+    "BURO_CREDIT_REPAID_MEAN": [
+      0.0,
+      1.0
+    ],
+    "BURO_CREDIT_REPAID_SUM": [
+      0.0,
+      17.0
+    ],
+    "BURO_OVERDUE_RATIO_MEAN": [
+      0.0,
+      0.00031445026397705633
+    ],
+    "BURO_OVERDUE_RATIO_MAX": [
+      0.0,
+      0.0018702030181885765
+    ],
+    "BURO_BB_MONTHS_COUNT_SUM": [
+      0.0,
+      652.0
+    ],
+    "BURO_BB_DPD_MONTHS_SUM": [
+      0.0,
+      27.0
+    ],
+    "BURO_CREDIT_COUNT": [
+      1.0,
+      22.0
+    ],
+    "BURO_ACTIVE_COUNT": [
+      1.0,
+      9.0
+    ],
+    "PREV_COUNT": [
+      1.0,
+      23.0
+    ],
+    "PREV_APPROVED_COUNT": [
+      1.0,
+      11.0
+    ],
+    "PREV_REFUSED_COUNT": [
+      0.0,
+      10.0
+    ],
+    "PREV_APPROVED_RATIO": [
+      0.0999755859375,
+      1.0
+    ],
+    "PREV_AMT_CREDIT_MEAN": [
+      14170.5,
+      931470.5406250006
+    ],
+    "PREV_AMT_CREDIT_MAX": [
+      17500.5,
+      2250000.0
+    ],
+    "PREV_AMT_ANNUITY_MEAN": [
+      2261.3647949218753,
+      58377.369726562705
+    ],
+    "PREV_APP_CREDIT_RATIO": [
+      0.4365234375,
+      1.6640625
+    ],
+    "PREV_LOAN_DIFF_MEAN": [
+      -202446.56249999997,
+      51473.20253906285
+    ],
+    "PREV_DOWN_RATIO_MEAN": [
+      0.0,
+      0.91015625
+    ],
+    "PREV_DAYS_DECISION_MIN": [
+      -2912.0,
+      -143.0
+    ],
+    "PREV_DAYS_DECISION_MEAN": [
+      -2740.0,
+      -108.41562499999782
+    ],
+    "PREV_RATE_DOWN_MEAN": [
+      0.0,
+      0.50048828125
+    ],
+    "PREV_CNT_PAYMENT_MEAN": [
+      0.0,
+      47.78125
+    ],
+    "INS_COUNT": [
+      3.0,
+      206.0
+    ],
+    "INS_AMT_PAYMENT_SUM": [
+      17859.26943359375,
+      5031426.400000003
+    ],
+    "INS_AMT_PAYMENT_MEAN": [
+      1858.8019653320314,
+      135474.58593750003
+    ],
+    "INS_PAYMENT_DIFF_MEAN": [
+      -30021.6275390625,
+      8353.530175781261
+    ],
+    "INS_PAYMENT_DIFF_MAX": [
+      0.0,
+      66631.52890625013
+    ],
+    "INS_PAYMENT_RATIO_MEAN": [
+      0.619140625,
+      2.7391601562500227
+    ],
+    "INS_PAYMENT_RATIO_MIN": [
+      5.900859832763672e-06,
+      1.0
+    ],
+    "INS_DAYS_LATE_MEAN": [
+      -54.79531249999996,
+      17.734375
+    ],
+    "INS_DAYS_LATE_MAX": [
+      -23.0,
+      745.0
+    ],
+    "INS_PAID_LATE_RATIO": [
+      0.0,
+      0.55078125
+    ],
+    "INS_PAID_FULL_RATIO": [
+      0.25,
+      1.0
+    ],
+    "POS_COUNT": [
+      3.0,
+      129.0
+    ],
+    "POS_MONTHS_BALANCE_MAX": [
+      -88.0,
+      -1.0
+    ],
+    "POS_SK_DPD_MEAN": [
+      0.0,
+      199.05625000000146
+    ],
+    "POS_SK_DPD_MAX": [
+      0.0,
+      907.9000000000233
+    ],
+    "POS_SK_DPD_DEF_MEAN": [
+      0.0,
+      2.1228515625000455
+    ],
+    "POS_SK_DPD_DEF_MAX": [
+      0.0,
+      23.0
+    ],
+    "POS_DPD_POSITIVE_RATIO": [
+      0.0,
+      0.5885986328125057
+    ],
+    "POS_CNT_INSTALMENT_MEAN": [
+      4.0,
+      45.625
+    ],
+    "AGE_YEARS": [
+      22.136986301369863,
+      67.7068493150685
+    ],
+    "EMPLOYED_YEARS": [
+      0.273972602739726,
+      33.60671232876716
+    ],
+    "CREDIT_INCOME_RATIO": [
+      0.48514285714285715,
+      14.806666666666839
+    ],
+    "ANNUITY_INCOME_RATIO": [
+      0.03272958333333335,
+      0.5505833333333333
+    ],
+    "CREDIT_TERM": [
+      0.02638,
+      0.11918727915194346
+    ],
+    "GOODS_CREDIT_RATIO": [
+      0.6544502617801047,
+      1.0
+    ],
+    "INCOME_PER_PERSON": [
+      15300.0,
+      405000.0
+    ],
+    "EXT_SOURCE_MEAN": [
+      0.06942027210090443,
+      0.786696956686697
+    ],
+    "EXT_SOURCE_STD": [
+      0.002062210084705289,
+      0.45409537510483383
+    ],
+    "EXT_SOURCE_PRODUCT": [
+      0.0,
+      0.4259089181305097
+    ],
+    "EXT_SOURCE_MIN": [
+      0.004847300511879511,
+      0.7657410668642519
+    ],
+    "EMPLOYED_TO_AGE_RATIO": [
+      0.006511780326218383,
+      0.6157081612416042
+    ],
+    "DOCUMENT_COUNT": [
+      0.0,
+      2.0
+    ],
+    "CREDIT_ENQUIRY_TOTAL": [
+      0.0,
+      10.0
+    ]
+  },
+  "dropped_cols": [
+    "OWN_CAR_AGE",
+    "YEARS_BUILD_AVG",
+    "COMMONAREA_AVG",
+    "FLOORSMIN_AVG",
+    "LIVINGAPARTMENTS_AVG",
+    "NONLIVINGAPARTMENTS_AVG",
+    "YEARS_BUILD_MODE",
+    "COMMONAREA_MODE",
+    "FLOORSMIN_MODE",
+    "LIVINGAPARTMENTS_MODE",
+    "NONLIVINGAPARTMENTS_MODE",
+    "YEARS_BUILD_MEDI",
+    "COMMONAREA_MEDI",
+    "FLOORSMIN_MEDI",
+    "LIVINGAPARTMENTS_MEDI",
+    "NONLIVINGAPARTMENTS_MEDI",
+    "BURO_AMT_ANNUITY_MEAN",
+    "BURO_BB_STATUS_MAX_MAX",
+    "BURO_BB_STATUS_MEAN_MEAN",
+    "CC_COUNT",
+    "CC_AMT_BALANCE_MEAN",
+    "CC_AMT_BALANCE_MAX",
+    "CC_LIMIT_MEAN",
+    "CC_DRAWINGS_MEAN",
+    "CC_DRAWINGS_MAX",
+    "CC_UTILIZATION_MEAN",
+    "CC_UTILIZATION_MAX",
+    "CC_PAYMENT_RATIO_MEAN",
+    "CC_SK_DPD_MEAN",
+    "CC_SK_DPD_MAX",
+    "CC_DPD_RATIO"
+  ],
+  "feature_cols": [
+    "CODE_GENDER",
+    "FLAG_OWN_CAR",
+    "FLAG_OWN_REALTY",
+    "CNT_CHILDREN",
+    "AMT_INCOME_TOTAL",
+    "AMT_CREDIT",
+    "AMT_ANNUITY",
+    "AMT_GOODS_PRICE",
+    "REGION_POPULATION_RELATIVE",
+    "DAYS_BIRTH",
+    "DAYS_EMPLOYED",
+    "DAYS_REGISTRATION",
+    "DAYS_ID_PUBLISH",
+    "FLAG_MOBIL",
+    "FLAG_EMP_PHONE",
+    "FLAG_WORK_PHONE",
+    "FLAG_CONT_MOBILE",
+    "FLAG_PHONE",
+    "FLAG_EMAIL",
+    "CNT_FAM_MEMBERS",
+    "REGION_RATING_CLIENT",
+    "REGION_RATING_CLIENT_W_CITY",
+    "WEEKDAY_APPR_PROCESS_START",
+    "HOUR_APPR_PROCESS_START",
+    "REG_REGION_NOT_LIVE_REGION",
+    "REG_REGION_NOT_WORK_REGION",
+    "LIVE_REGION_NOT_WORK_REGION",
+    "REG_CITY_NOT_LIVE_CITY",
+    "REG_CITY_NOT_WORK_CITY",
+    "LIVE_CITY_NOT_WORK_CITY",
+    "EXT_SOURCE_1",
+    "EXT_SOURCE_2",
+    "EXT_SOURCE_3",
+    "APARTMENTS_AVG",
+    "BASEMENTAREA_AVG",
+    "YEARS_BEGINEXPLUATATION_AVG",
+    "ELEVATORS_AVG",
+    "ENTRANCES_AVG",
+    "FLOORSMAX_AVG",
+    "LANDAREA_AVG",
+    "LIVINGAREA_AVG",
+    "NONLIVINGAREA_AVG",
+    "APARTMENTS_MODE",
+    "BASEMENTAREA_MODE",
+    "YEARS_BEGINEXPLUATATION_MODE",
+    "ELEVATORS_MODE",
+    "ENTRANCES_MODE",
+    "FLOORSMAX_MODE",
+    "LANDAREA_MODE",
+    "LIVINGAREA_MODE",
+    "NONLIVINGAREA_MODE",
+    "APARTMENTS_MEDI",
+    "BASEMENTAREA_MEDI",
+    "YEARS_BEGINEXPLUATATION_MEDI",
+    "ELEVATORS_MEDI",
+    "ENTRANCES_MEDI",
+    "FLOORSMAX_MEDI",
+    "LANDAREA_MEDI",
+    "LIVINGAREA_MEDI",
+    "NONLIVINGAREA_MEDI",
+    "TOTALAREA_MODE",
+    "OBS_30_CNT_SOCIAL_CIRCLE",
+    "DEF_30_CNT_SOCIAL_CIRCLE",
+    "OBS_60_CNT_SOCIAL_CIRCLE",
+    "DEF_60_CNT_SOCIAL_CIRCLE",
+    "DAYS_LAST_PHONE_CHANGE",
+    "FLAG_DOCUMENT_2",
+    "FLAG_DOCUMENT_3",
+    "FLAG_DOCUMENT_4",
+    "FLAG_DOCUMENT_5",
+    "FLAG_DOCUMENT_6",
+    "FLAG_DOCUMENT_7",
+    "FLAG_DOCUMENT_8",
+    "FLAG_DOCUMENT_9",
+    "FLAG_DOCUMENT_10",
+    "FLAG_DOCUMENT_11",
+    "FLAG_DOCUMENT_12",
+    "FLAG_DOCUMENT_13",
+    "FLAG_DOCUMENT_14",
+    "FLAG_DOCUMENT_15",
+    "FLAG_DOCUMENT_16",
+    "FLAG_DOCUMENT_17",
+    "FLAG_DOCUMENT_18",
+    "FLAG_DOCUMENT_19",
+    "FLAG_DOCUMENT_20",
+    "FLAG_DOCUMENT_21",
+    "AMT_REQ_CREDIT_BUREAU_HOUR",
+    "AMT_REQ_CREDIT_BUREAU_DAY",
+    "AMT_REQ_CREDIT_BUREAU_WEEK",
+    "AMT_REQ_CREDIT_BUREAU_MON",
+    "AMT_REQ_CREDIT_BUREAU_QRT",
+    "AMT_REQ_CREDIT_BUREAU_YEAR",
+    "BURO_DAYS_CREDIT_MIN",
+    "BURO_DAYS_CREDIT_MAX",
+    "BURO_DAYS_CREDIT_MEAN",
+    "BURO_CREDIT_DAY_OVERDUE_MAX",
+    "BURO_CREDIT_DAY_OVERDUE_MEAN",
+    "BURO_AMT_CREDIT_MAX_OVERDUE_MAX",
+    "BURO_AMT_CREDIT_MAX_OVERDUE_MEAN",
+    "BURO_AMT_CREDIT_SUM_SUM",
+    "BURO_AMT_CREDIT_SUM_MEAN",
+    "BURO_AMT_CREDIT_SUM_DEBT_SUM",
+    "BURO_AMT_CREDIT_SUM_DEBT_MEAN",
+    "BURO_AMT_CREDIT_SUM_OVERDUE_SUM",
+    "BURO_AMT_ANNUITY_SUM",
+    "BURO_CNT_CREDIT_PROLONG_SUM",
+    "BURO_CREDIT_DURATION_MEAN",
+    "BURO_CREDIT_DURATION_MAX",
+    "BURO_CREDIT_REPAID_MEAN",
+    "BURO_CREDIT_REPAID_SUM",
+    "BURO_OVERDUE_RATIO_MEAN",
+    "BURO_OVERDUE_RATIO_MAX",
+    "BURO_BB_MONTHS_COUNT_SUM",
+    "BURO_BB_DPD_MONTHS_SUM",
+    "BURO_CREDIT_COUNT",
+    "BURO_ACTIVE_COUNT",
+    "PREV_COUNT",
+    "PREV_APPROVED_COUNT",
+    "PREV_REFUSED_COUNT",
+    "PREV_APPROVED_RATIO",
+    "PREV_AMT_CREDIT_MEAN",
+    "PREV_AMT_CREDIT_MAX",
+    "PREV_AMT_ANNUITY_MEAN",
+    "PREV_APP_CREDIT_RATIO",
+    "PREV_LOAN_DIFF_MEAN",
+    "PREV_DOWN_RATIO_MEAN",
+    "PREV_DAYS_DECISION_MIN",
+    "PREV_DAYS_DECISION_MEAN",
+    "PREV_RATE_DOWN_MEAN",
+    "PREV_CNT_PAYMENT_MEAN",
+    "INS_COUNT",
+    "INS_AMT_PAYMENT_SUM",
+    "INS_AMT_PAYMENT_MEAN",
+    "INS_PAYMENT_DIFF_MEAN",
+    "INS_PAYMENT_DIFF_MAX",
+    "INS_PAYMENT_RATIO_MEAN",
+    "INS_PAYMENT_RATIO_MIN",
+    "INS_DAYS_LATE_MEAN",
+    "INS_DAYS_LATE_MAX",
+    "INS_PAID_LATE_RATIO",
+    "INS_PAID_FULL_RATIO",
+    "POS_COUNT",
+    "POS_MONTHS_BALANCE_MAX",
+    "POS_SK_DPD_MEAN",
+    "POS_SK_DPD_MAX",
+    "POS_SK_DPD_DEF_MEAN",
+    "POS_SK_DPD_DEF_MAX",
+    "POS_DPD_POSITIVE_RATIO",
+    "POS_CNT_INSTALMENT_MEAN",
+    "AGE_YEARS",
+    "EMPLOYED_YEARS",
+    "CREDIT_INCOME_RATIO",
+    "ANNUITY_INCOME_RATIO",
+    "CREDIT_TERM",
+    "GOODS_CREDIT_RATIO",
+    "INCOME_PER_PERSON",
+    "EXT_SOURCE_MEAN",
+    "EXT_SOURCE_STD",
+    "EXT_SOURCE_PRODUCT",
+    "EXT_SOURCE_MIN",
+    "EMPLOYED_TO_AGE_RATIO",
+    "IS_UNEMPLOYED",
+    "DOCUMENT_COUNT",
+    "DEF_30_60_DIFF",
+    "CREDIT_ENQUIRY_TOTAL",
+    "NAME_CONTRACT_TYPE_Cash loans",
+    "NAME_CONTRACT_TYPE_Revolving loans",
+    "NAME_TYPE_SUITE_Children",
+    "NAME_TYPE_SUITE_Family",
+    "NAME_TYPE_SUITE_Group of people",
+    "NAME_TYPE_SUITE_Other_A",
+    "NAME_TYPE_SUITE_Other_B",
+    "NAME_TYPE_SUITE_Spouse, partner",
+    "NAME_TYPE_SUITE_Unaccompanied",
+    "NAME_INCOME_TYPE_Businessman",
+    "NAME_INCOME_TYPE_Commercial associate",
+    "NAME_INCOME_TYPE_Maternity leave",
+    "NAME_INCOME_TYPE_Pensioner",
+    "NAME_INCOME_TYPE_State servant",
+    "NAME_INCOME_TYPE_Student",
+    "NAME_INCOME_TYPE_Unemployed",
+    "NAME_INCOME_TYPE_Working",
+    "NAME_EDUCATION_TYPE_Academic degree",
+    "NAME_EDUCATION_TYPE_Higher education",
+    "NAME_EDUCATION_TYPE_Incomplete higher",
+    "NAME_EDUCATION_TYPE_Lower secondary",
+    "NAME_EDUCATION_TYPE_Secondary / secondary special",
+    "NAME_FAMILY_STATUS_Civil marriage",
+    "NAME_FAMILY_STATUS_Married",
+    "NAME_FAMILY_STATUS_Separated",
+    "NAME_FAMILY_STATUS_Single / not married",
+    "NAME_FAMILY_STATUS_Unknown",
+    "NAME_FAMILY_STATUS_Widow",
+    "NAME_HOUSING_TYPE_Co-op apartment",
+    "NAME_HOUSING_TYPE_House / apartment",
+    "NAME_HOUSING_TYPE_Municipal apartment",
+    "NAME_HOUSING_TYPE_Office apartment",
+    "NAME_HOUSING_TYPE_Rented apartment",
+    "NAME_HOUSING_TYPE_With parents",
+    "OCCUPATION_TYPE_Accountants",
+    "OCCUPATION_TYPE_Cleaning staff",
+    "OCCUPATION_TYPE_Cooking staff",
+    "OCCUPATION_TYPE_Core staff",
+    "OCCUPATION_TYPE_Drivers",
+    "OCCUPATION_TYPE_HR staff",
+    "OCCUPATION_TYPE_High skill tech staff",
+    "OCCUPATION_TYPE_IT staff",
+    "OCCUPATION_TYPE_Laborers",
+    "OCCUPATION_TYPE_Low-skill Laborers",
+    "OCCUPATION_TYPE_Managers",
+    "OCCUPATION_TYPE_Medicine staff",
+    "OCCUPATION_TYPE_Private service staff",
+    "OCCUPATION_TYPE_Realty agents",
+    "OCCUPATION_TYPE_Sales staff",
+    "OCCUPATION_TYPE_Secretaries",
+    "OCCUPATION_TYPE_Security staff",
+    "OCCUPATION_TYPE_Waiters/barmen staff",
+    "ORGANIZATION_TYPE_Advertising",
+    "ORGANIZATION_TYPE_Agriculture",
+    "ORGANIZATION_TYPE_Bank",
+    "ORGANIZATION_TYPE_Business Entity Type 1",
+    "ORGANIZATION_TYPE_Business Entity Type 2",
+    "ORGANIZATION_TYPE_Business Entity Type 3",
+    "ORGANIZATION_TYPE_Cleaning",
+    "ORGANIZATION_TYPE_Construction",
+    "ORGANIZATION_TYPE_Culture",
+    "ORGANIZATION_TYPE_Electricity",
+    "ORGANIZATION_TYPE_Emergency",
+    "ORGANIZATION_TYPE_Government",
+    "ORGANIZATION_TYPE_Hotel",
+    "ORGANIZATION_TYPE_Housing",
+    "ORGANIZATION_TYPE_Industry: type 1",
+    "ORGANIZATION_TYPE_Industry: type 10",
+    "ORGANIZATION_TYPE_Industry: type 11",
+    "ORGANIZATION_TYPE_Industry: type 12",
+    "ORGANIZATION_TYPE_Industry: type 13",
+    "ORGANIZATION_TYPE_Industry: type 2",
+    "ORGANIZATION_TYPE_Industry: type 3",
+    "ORGANIZATION_TYPE_Industry: type 4",
+    "ORGANIZATION_TYPE_Industry: type 5",
+    "ORGANIZATION_TYPE_Industry: type 6",
+    "ORGANIZATION_TYPE_Industry: type 7",
+    "ORGANIZATION_TYPE_Industry: type 8",
+    "ORGANIZATION_TYPE_Industry: type 9",
+    "ORGANIZATION_TYPE_Insurance",
+    "ORGANIZATION_TYPE_Kindergarten",
+    "ORGANIZATION_TYPE_Legal Services",
+    "ORGANIZATION_TYPE_Medicine",
+    "ORGANIZATION_TYPE_Military",
+    "ORGANIZATION_TYPE_Mobile",
+    "ORGANIZATION_TYPE_Other",
+    "ORGANIZATION_TYPE_Police",
+    "ORGANIZATION_TYPE_Postal",
+    "ORGANIZATION_TYPE_Realtor",
+    "ORGANIZATION_TYPE_Religion",
+    "ORGANIZATION_TYPE_Restaurant",
+    "ORGANIZATION_TYPE_School",
+    "ORGANIZATION_TYPE_Security",
+    "ORGANIZATION_TYPE_Security Ministries",
+    "ORGANIZATION_TYPE_Self-employed",
+    "ORGANIZATION_TYPE_Services",
+    "ORGANIZATION_TYPE_Telecom",
+    "ORGANIZATION_TYPE_Trade: type 1",
+    "ORGANIZATION_TYPE_Trade: type 2",
+    "ORGANIZATION_TYPE_Trade: type 3",
+    "ORGANIZATION_TYPE_Trade: type 4",
+    "ORGANIZATION_TYPE_Trade: type 5",
+    "ORGANIZATION_TYPE_Trade: type 6",
+    "ORGANIZATION_TYPE_Trade: type 7",
+    "ORGANIZATION_TYPE_Transport: type 1",
+    "ORGANIZATION_TYPE_Transport: type 2",
+    "ORGANIZATION_TYPE_Transport: type 3",
+    "ORGANIZATION_TYPE_Transport: type 4",
+    "ORGANIZATION_TYPE_University",
+    "ORGANIZATION_TYPE_XNA",
+    "FONDKAPREMONT_MODE_not specified",
+    "FONDKAPREMONT_MODE_org spec account",
+    "FONDKAPREMONT_MODE_reg oper account",
+    "FONDKAPREMONT_MODE_reg oper spec account",
+    "HOUSETYPE_MODE_block of flats",
+    "HOUSETYPE_MODE_specific housing",
+    "HOUSETYPE_MODE_terraced house",
+    "WALLSMATERIAL_MODE_Block",
+    "WALLSMATERIAL_MODE_Mixed",
+    "WALLSMATERIAL_MODE_Monolithic",
+    "WALLSMATERIAL_MODE_Others",
+    "WALLSMATERIAL_MODE_Panel",
+    "WALLSMATERIAL_MODE_Stone, brick",
+    "WALLSMATERIAL_MODE_Wooden",
+    "EMERGENCYSTATE_MODE_No",
+    "EMERGENCYSTATE_MODE_Yes"
+  ]
+}
