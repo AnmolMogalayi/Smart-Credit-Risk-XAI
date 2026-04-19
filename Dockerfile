@@ -14,23 +14,17 @@ ENV PATH="/home/user/.local/bin:$PATH"
 WORKDIR /app
 
 # Install dependencies (using Docker cache for speed)
-COPY --chown=user backend/requirements.txt requirements.txt
+COPY --chown=user requirements.txt requirements.txt
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir --upgrade -r requirements.txt
 
 # Copy all project folders into the container
-COPY --chown=user backend/           ./backend/
-COPY --chown=user models/            ./models/
-COPY --chown=user data/              ./data/
-COPY --chown=user index.html         ./frontend/index.html
+COPY --chown=user . .
 
 # Ensure the app can find the 'backend' package and 'models' folder
 ENV PYTHONPATH=/app
 
-# Move into the backend folder to start the server
-WORKDIR /app/backend
+# Streamlit/HuggingFace Spaces port
+EXPOSE 8501
 
-# HuggingFace Spaces MUST use port 7860
-EXPOSE 7860
-
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
