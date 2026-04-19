@@ -1,0 +1,20 @@
+{
+  "oof_roc_auc": 0.78488,
+  "avg_precision": 0.27784,
+  "best_threshold": 0.65,
+  "fold_aucs": [
+    0.78241,
+    0.78975,
+    0.78407,
+    0.78727,
+    0.78234
+  ],
+  "cv_mean_auc": 0.78517,
+  "cv_std_auc": 0.00291,
+  "confusion_matrix": {
+    "TN": 252083,
+    "FP": 30603,
+    "FN": 13726,
+    "TP": 11099
+  }
+}

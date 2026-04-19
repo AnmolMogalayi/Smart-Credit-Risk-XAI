@@ -6,7 +6,6 @@ __pycache__/
 data/raw/
 data/processed/train_processed.csv
 data/processed/test_processed.csv
-models/
 notebooks/*.ipynb_checkpoints
 .idea/
 .vscode/
